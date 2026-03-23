@@ -1,0 +1,12 @@
+2026-03-23 11:27:48,386 | DEBUG | Login attempt | user_id=123
+2026-03-23 11:27:48,386 | INFO | User logged in | user_id=123
+2026-03-23 11:27:48,439 | DEBUG | Saving data | data={"student": "123", "grade": 9}
+2026-03-23 11:27:48,439 | INFO | Data saved successfully
+2026-03-23 11:27:48,439 | DEBUG | Login attempt | user_id=
+2026-03-23 11:27:48,439 | WARNING | Login failed | reason=empty_user_id
+2026-03-23 11:27:48,440 | DEBUG | Fetching student | student_id=999
+2026-03-23 11:27:48,440 | WARNING | Student not found | student_id=999
+2026-03-23 11:27:48,440 | DEBUG | Add grade attempt | student_id=123, subject=Fizika, grade=15
+2026-03-23 11:27:48,441 | ERROR | Invalid grade | student_id=123, grade=15
+2026-03-23 11:27:48,441 | DEBUG | Saving data | data={}
+2026-03-23 11:27:48,441 | ERROR | Save failed | error=Empty data
