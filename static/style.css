@@ -8,7 +8,7 @@ form {
     margin: 20px auto;
     padding: 20px;
     background: white;
-    width: 260px;
+    width: 250px;
     border-radius: 10px;
 }
 
@@ -27,9 +27,4 @@ button {
 
 button:hover {
     background: #45a049;
-}
-
-.error {
-    color: red;
-    margin-bottom: 10px;
 }
