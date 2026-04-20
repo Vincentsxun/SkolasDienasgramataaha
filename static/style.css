@@ -3,7 +3,7 @@
     background: #313131;
     text-align: center;
     color: white;
-    padding-top: 10%;
+    padding-top: 5%;
 }
 
 form {
@@ -33,4 +33,8 @@ button:hover {
 
 .aregister{
     color: white;
+}
+.logoreg{
+    height: 250px;
+    width: 300px;
 }
