@@ -7,14 +7,14 @@ app.secret_key = "secret123"
 
 DATA_FILE = "users.json"
 
-# Load users from JSON file
+
 def load_users():
     if os.path.exists(DATA_FILE):
         with open(DATA_FILE, "r") as f:
             return json.load(f)
     return {}
 
-# Save users to JSON file
+
 def save_users(users):
     with open(DATA_FILE, "w") as f:
         json.dump(users, f)
