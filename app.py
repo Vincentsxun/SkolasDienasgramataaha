@@ -34,13 +34,15 @@ def register():
         username = request.form['username']
         password = request.form['password']
         role = request.form['role']
+        grade = request.form['grade']
 
         if username in users:
             return "User already exists"
 
         users[username] = {
             'password': password,
-            'role': role
+            'role': role,
+            'grade':grade
         }
 
         save_users(users)
