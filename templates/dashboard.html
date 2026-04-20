@@ -1,71 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dienasgrāmata</title>
+    <title>DIENASGRĀMATA</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
 
-<h2>Welcome {{ user.username }}</h2>
-<p>Role: {{ user.role }}</p>
+<body class="dashbody">
+<div><img class="logo" src="/static/logo.png">
+    <div class="dashinfo">
+        <img class="usericon" src="/static/usericon.png">
+    </div>
+    <div class="dashinfo">
+        <h2>Welcome {{ user.username }}, {{ user.role }}</h2>
+    </div>
+
+</div>
 
 {% if user.role == 'teacher' %}
+    <div class="pievienotmajasdarbu">
+        <h3 class="dashh3">Pievienot mājasdarbu <br>
+       Klase: {{ user.grade }}</h3>
+        <form method="POST" action="/add_homework">
 
-    <h3>Pievienot mājasdarbu</h3>
-    <form method="POST" action="/add_homework">
-        <input type="text" name="subject" placeholder="Priekšmets" required>
-        <input type="text" name="time" placeholder="Laiks (piem. 10:00)" required>
+            <select class="regselect" name="subject">
+                <option value="Matematika">Matemātika</option>
+                <option value="LatviesuValoda">Latviešu valoda</option>
+                <option value="AngluValoda">Angļu valoda</option>
+                <option value="Literatura">Literatūra</option>
+                <option value="VizualaMaksla">Vizuālā māksla</option>
+                <option value="Etika">Ētika</option>
+                <option value="Muzika">Mūzika</option>
+                <option value="Majturiba">Mājurība</option>
+            </select>
 
-        <select name="day">
-            <option value="Monday">Pirmdiena</option>
-            <option value="Tuesday">Otrdiena</option>
-            <option value="Wednesday">Trešdiena</option>
-            <option value="Thursday">Ceturtdiena</option>
-            <option value="Friday">Piektdiena</option>
-        </select>
+             <select class="regselect" name="day">
+                <option value="Pirmdiena">Pirmdiena</option>
+                <option value="Otrdiena">Otrdiena</option>
+                <option value="Tresdiena">Trešdiena</option>
+                <option value="Ceturtdiena">Ceturtdiena</option>
+                <option value="Piektdiena">Piektdiena</option>
+            </select>
 
-        <select name="grade">
-            <option value="grade1">1. klase</option>
-            <option value="grade2">2. klase</option>
-            <option value="grade3">3. klase</option>
-            <option value="grade4">4. klase</option>
-        </select>
-
-        <input type="text" name="homework" placeholder="Mājasdarbs" required>
-
-        <button type="submit">Saglabāt</button>
-    </form>
-
-    <h3>Visi ieraksti</h3>
-    <ul>
-        {% for lesson in schedule %}
-            <li>
-                {{ lesson.day }} - {{ lesson.subject }} ({{ lesson.time }}) - {{ lesson.homework }} [{{ lesson.grade }}]
-            </li>
-        {% endfor %}
-    </ul>
-
-{% else %}
-
-    <h3>Dienas grafiks</h3>
-
-    {% for day in ['Monday','Tuesday','Wednesday','Thursday','Friday'] %}
-        <h4>{{ day }}</h4>
-        <ul>
-        {% for lesson in schedule %}
-            {% if lesson.day == day and lesson.grade == user.grade %}
-                <li>
-                    <strong>{{ lesson.subject }}</strong> ({{ lesson.time }})<br>
-                    Mājasdarbs: {{ lesson.homework }}
-                </li>
-            {% endif %}
-        {% endfor %}
-        </ul>
-    {% endfor %}
+            <input class="reginput1" type="text" name="homework" placeholder="Mājasdarbs" required>
+            <br><br>
+            <button class="regbutton" type="submit">Saglabāt</button>
+        </form>
+    </div>
 
 {% endif %}
+    
+    <div class="pievienotmajasdarbu1">
+        <h3 class="dashh3">Dienas grafiks</h3>
 
-<a href="/logout">Logout</a>
+        {% for day in ['Pirmdiena','Otrdiena','Tresdiena','Ceturtdiena','Piektdiena'] %}
+            <h3>{{ day }}</h3>
+
+            {% for lesson in schedule %}
+                {% if lesson.day == day and lesson.grade == user.grade %}
+                    <p>
+                        <strong>{{ lesson.subject }}</strong><br>
+                        Mājasdarbs: {{ lesson.homework }}
+                    </p>
+                {% endif %}
+            {% endfor %}
+
+        {% endfor %}
+    </div>
+
+
+
+<div class="aregister1"> <a class="aregister" href="/logout">Logout</a></div>
 
 </body>
 </html>

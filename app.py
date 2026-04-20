@@ -96,14 +96,13 @@ def add_homework():
         return redirect(url_for('login'))
 
     subject = request.form['subject']
-    time = request.form['time']
     homework = request.form['homework']
     day = request.form['day']
-    grade = request.form['grade']
+    grade = session['user']['grade']
+
 
     schedule.append({
         'subject': subject,
-        'time': time,
         'homework': homework,
         'day': day,
         'grade': grade

@@ -7,23 +7,23 @@
 <body class="bodyregistry">
     <img class="logoreg" src="/static/logo.png">
     <h2>REĢISTRĀCIJA</h2>
-    <form method="POST">
-        <input type="text" name="username" placeholder="Lietotājvārds" required><br>
-        <input type="password" name="password" placeholder="Parole" required><br>
+    <form class="regform" method="POST">
+        <input class="reginput" type="text" name="username" placeholder="Lietotājvārds" required><br>
+        <input class="reginput" type="password" name="password" placeholder="Parole" required><br>
 
-        <select name="role">
+        <select class="regselect" name="role">
             <option value="student">Skolēns</option>
             <option value="teacher">Skolotājs</option>
         </select><br>
 
-        <select name="grade">
-            <option value="grade1">1. klase</option>
-            <option value="grade2">2. klase</option>
-            <option value="grade3">3. klase</option>
-            <option value="grade4">4. klase</option>
+        <select class="regselect" name="grade">
+            <option value="Grade1">1. klase</option>
+            <option value="Grade2">2. klase</option>
+            <option value="Grade3">3. klase</option>
+            <option value="Grade4">4. klase</option>
         </select><br>
 
-        <button type="submit">REĢISTRĒTIES</button>
+        <button class="regbutton" type="submit">REĢISTRĒTIES</button>
     </form>
     <a href="/login" class="aregister">JA IR KONTS, IELOGOJIES</a>
 </body>
