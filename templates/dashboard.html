@@ -5,15 +5,67 @@
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-    <h2>Welcome {{ user.username }}</h2>
-    <p>Role: {{ user.role }}</p>
 
-    {% if user.role == 'teacher' %}
-        <p>You can manage classes and students.</p>
-    {% else %}
-        <p>You can view your diary and assignments.</p>
-    {% endif %}
+<h2>Welcome {{ user.username }}</h2>
+<p>Role: {{ user.role }}</p>
 
-    <a href="/logout">Logout</a>
+{% if user.role == 'teacher' %}
+
+    <h3>Pievienot mājasdarbu</h3>
+    <form method="POST" action="/add_homework">
+        <input type="text" name="subject" placeholder="Priekšmets" required>
+        <input type="text" name="time" placeholder="Laiks (piem. 10:00)" required>
+
+        <select name="day">
+            <option value="Monday">Pirmdiena</option>
+            <option value="Tuesday">Otrdiena</option>
+            <option value="Wednesday">Trešdiena</option>
+            <option value="Thursday">Ceturtdiena</option>
+            <option value="Friday">Piektdiena</option>
+        </select>
+
+        <select name="grade">
+            <option value="grade1">1. klase</option>
+            <option value="grade2">2. klase</option>
+            <option value="grade3">3. klase</option>
+            <option value="grade4">4. klase</option>
+        </select>
+
+        <input type="text" name="homework" placeholder="Mājasdarbs" required>
+
+        <button type="submit">Saglabāt</button>
+    </form>
+
+    <h3>Visi ieraksti</h3>
+    <ul>
+        {% for lesson in schedule %}
+            <li>
+                {{ lesson.day }} - {{ lesson.subject }} ({{ lesson.time }}) - {{ lesson.homework }} [{{ lesson.grade }}]
+            </li>
+        {% endfor %}
+    </ul>
+
+{% else %}
+
+    <h3>Dienas grafiks</h3>
+
+    {% for day in ['Monday','Tuesday','Wednesday','Thursday','Friday'] %}
+        <h4>{{ day }}</h4>
+        <ul>
+        {% for lesson in schedule %}
+            {% if lesson.day == day and lesson.grade == user.grade %}
+                <li>
+                    <strong>{{ lesson.subject }}</strong> ({{ lesson.time }})<br>
+                    Mājasdarbs: {{ lesson.homework }}
+                </li>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% endfor %}
+
+{% endif %}
+
+<a href="/logout">Logout</a>
+
 </body>
 </html>

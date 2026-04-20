@@ -21,10 +21,24 @@ def save_users(users):
 
 users = load_users()
 
+SCHEDULE_FILE = "schedule.json"
+
+def load_schedule():
+    if os.path.exists(SCHEDULE_FILE):
+        with open(SCHEDULE_FILE, "r") as f:
+            return json.load(f)
+    return []
+
+def save_schedule(data):
+    with open(SCHEDULE_FILE, "w") as f:
+        json.dump(data, f)
+
+schedule = load_schedule()
+
 @app.route('/')
 def home():
     if 'user' in session:
-        return render_template('dashboard.html', user=session['user'])
+        return render_template('dashboard.html', user=session['user'], schedule=schedule)
     return redirect(url_for('login'))
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -62,7 +76,8 @@ def login():
         if user and user['password'] == password:
             session['user'] = {
                 'username': username,
-                'role': user['role']
+                'role': user['role'],
+                'grade': user['grade']
             }
             return redirect(url_for('home'))
         else:
@@ -74,6 +89,29 @@ def login():
 def logout():
     session.pop('user', None)
     return redirect(url_for('login'))
+
+@app.route('/add_homework', methods=['POST'])
+def add_homework():
+    if 'user' not in session or session['user']['role'] != 'teacher':
+        return redirect(url_for('login'))
+
+    subject = request.form['subject']
+    time = request.form['time']
+    homework = request.form['homework']
+    day = request.form['day']
+    grade = request.form['grade']
+
+    schedule.append({
+        'subject': subject,
+        'time': time,
+        'homework': homework,
+        'day': day,
+        'grade': grade
+    })
+
+    save_schedule(schedule)
+
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
