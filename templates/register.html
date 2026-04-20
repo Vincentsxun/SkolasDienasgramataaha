@@ -1,29 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Register</title>
+    <title>REĢISTRĀCIJA</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
-    <h2>Register</h2>
+<body class="bodyregistry">
+    <img src="logo.png">
+    <h2>REĢISTRĀCIJA</h2>
     <form method="POST">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
+        <input type="text" name="username" placeholder="Lietotājvārds" required><br>
+        <input type="password" name="password" placeholder="Parole" required><br>
 
         <select name="role">
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
+            <option value="student">Skolēns</option>
+            <option value="teacher">Skolotājs</option>
         </select><br>
 
         <select name="grade">
-            <option value="grade1">1</option>
-            <option value="grade2">2</option>
-            <option value="grade3">3</option>
-            <option value="grade4">4</option>
+            <option value="grade1">1. klase</option>
+            <option value="grade2">2. klase</option>
+            <option value="grade3">3. klase</option>
+            <option value="grade4">4. klase</option>
         </select><br>
 
-        <button type="submit">Sign Up</button>
+        <button type="submit">REĢISTRĒTIES</button>
     </form>
-    <a href="/login">Already have an account?</a>
+    <a href="/login" class="aregister">JA IR KONTS, IELOGOJIES</a>
 </body>
 </html>
