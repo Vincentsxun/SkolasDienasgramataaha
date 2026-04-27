@@ -7,6 +7,17 @@
 <body class="bodyregistry">
     <img class="logoreg" src="/static/logo.png">
     <h2>PIESLĒGTIES</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash-box">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
     <form class="regform" method="POST">
         <input class="reginput" type="text" name="username" placeholder="Vārds, uzvārds" required><br>
         <input class="reginput" type="password" name="password" placeholder="Parole" required><br>

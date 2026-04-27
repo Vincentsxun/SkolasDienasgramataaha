@@ -6,22 +6,30 @@
 </head>
 
 <body class="dashbody">
-<div><img class="logo" src="/static/logo.png">
+<div class="topbar">
+    <img class="logo" src="/static/logo.png">
     <div class="dashinfo">
         <img class="usericon" src="/static/usericon.png">
+        <h2>Sveiks, {{ user.username }} ({{ user.role }})</h2>
+        <p>Klase: {{ user.grade }}</p>
     </div>
-    <div class="dashinfo">
-        <h2>Welcome {{ user.username }}, {{ user.role }}</h2>
-    </div>
-
 </div>
 
-{% if user.role == 'teacher' %}
-    <div class="pievienotmajasdarbu">
-        <h3 class="dashh3">Pievienot mājasdarbu <br>
-       Klase: {{ user.grade }}</h3>
-        <form method="POST" action="/add_homework">
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class="flash-box dark">
+      {% for message in messages %}
+        <p>{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 
+<div class="layout-row">
+{% if user.role == 'teacher' %}
+    <div class="card">
+        <h3 class="dashh3">Pievienot mājasdarbu</h3>
+        <form method="POST" action="/add_homework">
             <select class="regselect" name="subject">
                 <option value="Matematika">Matemātika</option>
                 <option value="LatviesuValoda">Latviešu valoda</option>
@@ -30,7 +38,7 @@
                 <option value="VizualaMaksla">Vizuālā māksla</option>
                 <option value="Etika">Ētika</option>
                 <option value="Muzika">Mūzika</option>
-                <option value="Majturiba">Mājurība</option>
+                <option value="Majturiba">Mājturība</option>
             </select>
 
              <select class="regselect" name="day">
@@ -41,33 +49,53 @@
                 <option value="Piektdiena">Piektdiena</option>
             </select>
 
-            <input class="reginput1" type="text" name="homework" placeholder="Mājasdarbs" required>
-            <br><br>
+            <textarea class="reginput1" name="homework" placeholder="Mājasdarbs" required></textarea>
             <button class="regbutton" type="submit">Saglabāt</button>
         </form>
     </div>
-
 {% endif %}
-    
-    <div class="pievienotmajasdarbu1">
+
+    <div class="card schedule-card">
         <h3 class="dashh3">{{ user.grade }} dienas grafiks</h3>
 
-        {% for day in ['Pirmdiena','Otrdiena','Tresdiena','Ceturtdiena','Piektdiena'] %}
+        {% for day in day_order %}
             <h3>{{ day }}</h3>
 
+            {% set has_lessons = false %}
             {% for lesson in schedule %}
-                {% if lesson.day == day and lesson.grade == user.grade %}
-                    <p>
-                        <strong>{{ lesson.subject }}</strong><br>
-                        Mājasdarbs: {{ lesson.homework }}
-                    </p>
+                {% if lesson.day == day %}
+                    {% set has_lessons = true %}
+                    <div class="lesson-box">
+                        <p><strong>{{ lesson.subject }}</strong></p>
+                        <p>Mājasdarbs: {{ lesson.homework }}</p>
+
+                        {% if user.role == 'student' %}
+                            <form method="POST" action="/toggle_done/{{ lesson.id }}">
+                                {% if user.username in lesson.completed_by %}
+                                    <button class="done-btn" type="submit">✅ Pabeigts</button>
+                                {% else %}
+                                    <button class="regbutton" type="submit">Atzīmēt kā pabeigtu</button>
+                                {% endif %}
+                            </form>
+                        {% endif %}
+
+                        {% if user.role == 'teacher' %}
+                            <p>Pabeiguši: {{ lesson.completed_by|length }}</p>
+                            <form method="POST" action="/delete_homework/{{ lesson.id }}">
+                                <button class="delete-btn" type="submit">Dzēst</button>
+                            </form>
+                        {% endif %}
+                    </div>
                 {% endif %}
             {% endfor %}
 
+            {% if not has_lessons %}
+                <p class="empty-msg">Šajā dienā mājasdarba nav.</p>
+            {% endif %}
+
         {% endfor %}
     </div>
-
-
+</div>
 
 <div class="aregister1"> <a class="aregister" href="/logout">Logout</a></div>
 
